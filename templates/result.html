@@ -1,0 +1,56 @@
+{% extends "base.html" %}
+{% block title %}Evolution Result - AI Evolution Simulator{% endblock %}
+
+{% block content %}
+<div class="result-container">
+    <h2>🧬 Evolution Complete!</h2>
+
+    <div class="result-comparison">
+        <div class="result-card parent">
+            <h3>Generation {{ parent.generation }}</h3>
+            <div class="creature-avatar" style="background: {{ parent.color }};">🧬</div>
+            <p class="fitness-display">Fitness: <strong>{{ parent.fitness }}</strong></p>
+            <ul class="trait-list-vertical">
+                <li>⚡ Speed: {{ parent.speed }}</li>
+                <li>💪 Strength: {{ parent.strength }}</li>
+                <li>🧠 Intelligence: {{ parent.intelligence }}</li>
+                <li>🏃 Agility: {{ parent.agility }}</li>
+                <li>❤️ Stamina: {{ parent.stamina }}</li>
+            </ul>
+        </div>
+
+        <div class="arrow">→</div>
+
+        <div class="result-card child">
+            <h3>Generation {{ child.generation }}</h3>
+            <div class="creature-avatar" style="background: {{ child.color }};">🧬</div>
+            <p class="fitness-display">Fitness: <strong>{{ child.fitness }}</strong></p>
+            <ul class="trait-list-vertical">
+                <li>⚡ Speed: {{ child.speed }}</li>
+                <li>💪 Strength: {{ child.strength }}</li>
+                <li>🧠 Intelligence: {{ child.intelligence }}</li>
+                <li>🏃 Agility: {{ child.agility }}</li>
+                <li>❤️ Stamina: {{ child.stamina }}</li>
+            </ul>
+        </div>
+    </div>
+
+    {% if changes %}
+        <div class="mutations">
+            <h3>Mutations</h3>
+            <ul>
+                {% for change in changes %}
+                    <li>{{ change }}</li>
+                {% endfor %}
+            </ul>
+        </div>
+    {% else %}
+        <p class="no-mutations">No mutations occurred this generation.</p>
+    {% endif %}
+
+    <div class="result-actions">
+        <a href="{{ url_for('game.view_creature', creature_id=child.id) }}" class="btn btn-primary">View Child</a>
+        <a href="{{ url_for('game.dashboard') }}" class="btn btn-secondary">Back to Dashboard</a>
+    </div>
+</div>
+{% endblock %}

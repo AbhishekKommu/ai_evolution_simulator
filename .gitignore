@@ -1,0 +1,15 @@
+
+---
+
+## 📁 `.gitignore`
+pycache/
+*.py[cod]
+*.egg-info/
+venv/
+env/
+.env
+.db
+database/.db
+.idea/
+.vscode/
+.DS_Store

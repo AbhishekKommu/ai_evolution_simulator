@@ -1,0 +1,58 @@
+{% extends "base.html" %}
+{% block title %}{{ creature.name }} - AI Evolution Simulator{% endblock %}
+
+{% block content %}
+<div class="creature-detail">
+    <div class="creature-header" style="border-color: {{ creature.color }};">
+        <div class="creature-avatar-large" style="background: {{ creature.color }};">🧬</div>
+        <div>
+            <h2>{{ creature.name }}</h2>
+            <p>Generation {{ creature.generation }} • Fitness: <strong>{{ creature.fitness }}</strong></p>
+        </div>
+    </div>
+
+    <div class="traits-panel">
+        <h3>Current Traits</h3>
+        <div class="trait-bars">
+            {% for trait, icon in [('speed','⚡'),('strength','💪'),('intelligence','🧠'),('agility','🏃'),('stamina','❤️')] %}
+                <div class="trait-bar">
+                    <span>{{ icon }} {{ trait|capitalize }}: {{ creature.traits[trait] }}</span>
+                    <div class="bar-bg">
+                        <div class="bar-fill"
+                             style="width: {{ creature.traits[trait] }}%; background: {{ creature.color }};"></div>
+                    </div>
+                </div>
+            {% endfor %}
+        </div>
+    </div>
+
+    <form method="POST" action="{{ url_for('game.evolve', creature_id=creature.id) }}">
+        <button type="submit" class="btn btn-primary btn-large">🧬 Evolve to Next Generation</button>
+    </form>
+
+    <div class="history-panel">
+        <h3>Evolution History</h3>
+        {% if history %}
+            <ul class="history-list">
+                {% for h in history %}
+                    <li>
+                        <strong>Gen {{ h.generation }}</strong> — Fitness: {{ h.fitness }}
+                        {% if h.changes %}
+                            <ul class="changes">
+                                {% for change in h.changes %}
+                                    <li>{{ change }}</li>
+                                {% endfor %}
+                            </ul>
+                        {% endif %}
+                        {% if h.note %}<em>{{ h.note }}</em>{% endif %}
+                    </li>
+                {% endfor %}
+            </ul>
+        {% else %}
+            <p>No history yet.</p>
+        {% endif %}
+    </div>
+
+    <a href="{{ url_for('game.dashboard') }}" class="btn btn-secondary">← Back to Dashboard</a>
+</div>
+{% endblock %}

@@ -1,0 +1,51 @@
+{% extends "base.html" %}
+{% block title %}Create Creature - AI Evolution Simulator{% endblock %}
+
+{% block content %}
+<div class="form-container">
+    <h2>Create New Creature</h2>
+    <p class="form-hint">Distribute up to <strong>300 points</strong> across traits (1–100 each).</p>
+
+    <form method="POST" id="creatureForm">
+        <div class="form-group">
+            <label for="name">Creature Name</label>
+            <input type="text" id="name" name="name" required maxlength="100" placeholder="e.g., Nova">
+        </div>
+
+        <div class="form-group">
+            <label for="color">Color</label>
+            <input type="color" id="color" name="color" value="#4A90E2">
+        </div>
+
+        <div class="trait-sliders">
+            {% for trait, icon in [('speed','⚡'),('strength','💪'),('intelligence','🧠'),('agility','🏃'),('stamina','❤️')] %}
+            <div class="trait-slider">
+                <label for="{{ trait }}">{{ icon }} {{ trait|capitalize }}: <span id="{{ trait }}_val">50</span></label>
+                <input type="range" id="{{ trait }}" name="{{ trait }}" min="1" max="100" value="50"
+                       oninput="document.getElementById('{{ trait }}_val').textContent=this.value; updateTotal();">
+            </div>
+            {% endfor %}
+        </div>
+
+        <div class="total-points">
+            Total Points: <strong><span id="totalPoints">250</span></strong> / 300
+        </div>
+
+        <button type="submit" class="btn btn-primary btn-block">Create Creature</button>
+    </form>
+</div>
+
+<script>
+    function updateTotal() {
+        const traits = ['speed', 'strength', 'intelligence', 'agility', 'stamina'];
+        let total = 0;
+        traits.forEach(t => {
+            total += parseInt(document.getElementById(t).value) || 0;
+        });
+        const el = document.getElementById('totalPoints');
+        el.textContent = total;
+        el.style.color = total > 300 ? '#e74c3c' : '#2ecc71';
+    }
+    document.addEventListener('DOMContentLoaded', updateTotal);
+</script>
+{% endblock %}

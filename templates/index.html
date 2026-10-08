@@ -1,0 +1,28 @@
+{% extends "base.html" %}
+{% block title %}Home - AI Evolution Simulator{% endblock %}
+
+{% block content %}
+<section class="hero">
+    <h1>🧬 AI Evolution Simulator</h1>
+    <p class="hero-subtitle">Create AI creatures, evolve them through generations, and dominate the leaderboard.</p>
+    <div class="hero-actions">
+        <a href="{{ url_for('auth.register') }}" class="btn btn-primary btn-large">Get Started</a>
+        <a href="{{ url_for('auth.login') }}" class="btn btn-secondary btn-large">Login</a>
+    </div>
+</section>
+
+<section class="features">
+    <div class="feature-card">
+        <h3>🎨 Create</h3>
+        <p>Design your creature with customizable traits: speed, strength, intelligence, agility, and stamina.</p>
+    </div>
+    <div class="feature-card">
+        <h3>🧬 Evolve</h3>
+        <p>Evolve your creature through generations. Mutations can improve or harm traits.</p>
+    </div>
+    <div class="feature-card">
+        <h3>🏆 Compete</h3>
+        <p>Track fitness scores and climb the global leaderboard to prove your creatures are the strongest.</p>
+    </div>
+</section>
+{% endblock %}

@@ -1,0 +1,48 @@
+{% extends "base.html" %}
+{% block title %}Dashboard - AI Evolution Simulator{% endblock %}
+
+{% block content %}
+<div class="dashboard-header">
+    <h2>Welcome, {{ user.username }}!</h2>
+    <a href="{{ url_for('game.create_creature') }}" class="btn btn-primary">+ Create New Creature</a>
+</div>
+
+{% if creatures %}
+    <div class="creature-grid">
+        {% for c in creatures %}
+            <div class="creature-card" style="border-color: {{ c.color }};">
+                <div class="creature-avatar" style="background: {{ c.color }};">🧬</div>
+                <h3>{{ c.name }}</h3>
+                <p class="creature-gen">Generation {{ c.generation }}</p>
+                <div class="fitness-bar">
+                    <div class="fitness-fill" style="width: {{ c.fitness }}%;"></div>
+                </div>
+                <p class="creature-fitness">Fitness: <strong>{{ c.fitness }}</strong></p>
+                <div class="trait-list">
+                    <span>⚡ {{ c.speed }}</span>
+                    <span>💪 {{ c.strength }}</span>
+                    <span>🧠 {{ c.intelligence }}</span>
+                    <span>🏃 {{ c.agility }}</span>
+                    <span>❤️ {{ c.stamina }}</span>
+                </div>
+                <div class="creature-actions">
+                    <a href="{{ url_for('game.view_creature', creature_id=c.id) }}" class="btn btn-secondary btn-sm">View</a>
+                    <form method="POST" action="{{ url_for('game.evolve', creature_id=c.id) }}" style="display:inline;">
+                        <button type="submit" class="btn btn-primary btn-sm">Evolve</button>
+                    </form>
+                    <form method="POST" action="{{ url_for('game.delete_creature', creature_id=c.id) }}"
+                          style="display:inline;" onsubmit="return confirm('Delete this creature?');">
+                        <button type="submit" class="btn btn-danger btn-sm">Delete</button>
+                    </form>
+                </div>
+            </div>
+        {% endfor %}
+    </div>
+{% else %}
+    <div class="empty-state">
+        <h3>No creatures yet</h3>
+        <p>Create your first AI creature and start evolving!</p>
+        <a href="{{ url_for('game.create_creature') }}" class="btn btn-primary">Create Creature</a>
+    </div>
+{% endif %}
+{% endblock %}

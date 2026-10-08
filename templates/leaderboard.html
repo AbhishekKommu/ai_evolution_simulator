@@ -1,0 +1,45 @@
+{% extends "base.html" %}
+{% block title %}Leaderboard - AI Evolution Simulator{% endblock %}
+
+{% block content %}
+<h2>🏆 Global Leaderboard</h2>
+
+{% if entries %}
+    <table class="leaderboard-table">
+        <thead>
+            <tr>
+                <th>Rank</th>
+                <th>Creature</th>
+                <th>Owner</th>
+                <th>Generation</th>
+                <th>Fitness</th>
+                <th>Total Power</th>
+            </tr>
+        </thead>
+        <tbody>
+            {% for entry in entries %}
+                <tr class="{% if entry.rank <= 3 %}top-{{ entry.rank }}{% endif %}">
+                    <td>
+                        {% if entry.rank == 1 %}🥇
+                        {% elif entry.rank == 2 %}🥈
+                        {% elif entry.rank == 3 %}🥉
+                        {% else %}{{ entry.rank }}{% endif %}
+                    </td>
+                    <td>
+                        <span class="creature-dot" style="background: {{ entry.creature.color }};"></span>
+                        {{ entry.creature.name }}
+                    </td>
+                    <td>{{ entry.owner }}</td>
+                    <td>{{ entry.creature.generation }}</td>
+                    <td><strong>{{ entry.creature.fitness }}</strong></td>
+                    <td>{{ entry.creature.total_power }}</td>
+                </tr>
+            {% endfor %}
+        </tbody>
+    </table>
+{% else %}
+    <div class="empty-state">
+        <p>No creatures on the leaderboard yet. Be the first!</p>
+    </div>
+{% endif %}
+{% endblock %}
